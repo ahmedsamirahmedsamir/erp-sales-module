@@ -7,7 +7,7 @@ module:
   license: MIT
   category: Sales
   icon: shopping-cart
-  repository: https://github.com/linearbits/erp-sales-module
+  repository: https://github.com/ahmedsamirahmedsamir/erp-sales-module
   
   # Database tables this module uses
   database:
