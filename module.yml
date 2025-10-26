@@ -1,0 +1,211 @@
+module:
+  code: sales
+  name: Sales Management
+  version: 1.0.0
+  description: Complete sales management with orders, quotes, invoices, and payments
+  author: LinearBits
+  license: MIT
+  category: Sales
+  icon: shopping-cart
+  repository: https://github.com/linearbits/erp-sales-module
+  
+  # Database tables this module uses
+  database:
+    # Core tables (shared across modules)
+    core_tables:
+      - customers
+      - products
+    # Module-specific tables
+    tables:
+      - sales_orders
+      - sales_order_items
+      - sales_quotes
+      - sales_quote_items
+      - sales_invoices
+      - sales_invoice_items
+      - sales_payments
+      - sales_returns
+      - sales_return_items
+      - price_lists
+      - price_list_items
+      - sales_territories
+      - sales_representatives
+  
+  # Permissions required
+  permissions:
+    - sales.orders.view
+    - sales.orders.create
+    - sales.orders.edit
+    - sales.orders.delete
+    - sales.quotes.view
+    - sales.quotes.create
+    - sales.quotes.edit
+    - sales.quotes.delete
+    - sales.invoices.view
+    - sales.invoices.create
+    - sales.invoices.edit
+    - sales.invoices.delete
+    - sales.payments.view
+    - sales.payments.create
+    - sales.payments.edit
+    - sales.returns.view
+    - sales.returns.create
+    - sales.returns.edit
+    - sales.price_lists.view
+    - sales.price_lists.create
+    - sales.price_lists.edit
+    - sales.price_lists.delete
+  
+  # API routes
+  api:
+    prefix: /api/v1/sales
+    routes:
+      - path: /orders
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesOrderHandler
+      - path: /orders/{id}/items
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesOrderItemHandler
+      - path: /quotes
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesQuoteHandler
+      - path: /quotes/{id}/items
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesQuoteItemHandler
+      - path: /invoices
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesInvoiceHandler
+      - path: /invoices/{id}/items
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesInvoiceItemHandler
+      - path: /payments
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesPaymentHandler
+      - path: /returns
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesReturnHandler
+      - path: /price-lists
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.PriceListHandler
+      - path: /territories
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesTerritoryHandler
+      - path: /representatives
+        methods: [GET, POST, PUT, DELETE]
+        handler: handlers.SalesRepresentativeHandler
+  
+  # Frontend routes
+  frontend:
+    routes:
+      - path: /sales
+        component: SalesDashboard
+        title: Sales Dashboard
+      - path: /sales/orders
+        component: SalesOrderList
+        title: Sales Orders
+      - path: /sales/orders/new
+        component: SalesOrderForm
+        title: New Sales Order
+      - path: /sales/orders/{id}
+        component: SalesOrderDetail
+        title: Sales Order Details
+      - path: /sales/quotes
+        component: SalesQuoteList
+        title: Sales Quotes
+      - path: /sales/quotes/new
+        component: SalesQuoteForm
+        title: New Sales Quote
+      - path: /sales/quotes/{id}
+        component: SalesQuoteDetail
+        title: Sales Quote Details
+      - path: /sales/invoices
+        component: SalesInvoiceList
+        title: Sales Invoices
+      - path: /sales/invoices/new
+        component: SalesInvoiceForm
+        title: New Sales Invoice
+      - path: /sales/invoices/{id}
+        component: SalesInvoiceDetail
+        title: Sales Invoice Details
+      - path: /sales/payments
+        component: SalesPaymentList
+        title: Sales Payments
+      - path: /sales/returns
+        component: SalesReturnList
+        title: Sales Returns
+      - path: /sales/price-lists
+        component: PriceListManagement
+        title: Price Lists
+      - path: /sales/territories
+        component: SalesTerritoryManagement
+        title: Sales Territories
+      - path: /sales/representatives
+        component: SalesRepresentativeManagement
+        title: Sales Representatives
+  
+  # Menu items
+  menu:
+    - label: Sales
+      icon: shopping-cart
+      path: /sales
+      children:
+        - label: Dashboard
+          path: /sales
+        - label: Orders
+          path: /sales/orders
+        - label: Quotes
+          path: /sales/quotes
+        - label: Invoices
+          path: /sales/invoices
+        - label: Payments
+          path: /sales/payments
+        - label: Returns
+          path: /sales/returns
+        - label: Price Lists
+          path: /sales/price-lists
+        - label: Territories
+          path: /sales/territories
+        - label: Representatives
+          path: /sales/representatives
+  
+  # Settings
+  settings:
+    - key: default_payment_terms
+      type: select
+      label: Default Payment Terms
+      options:
+        - value: net_15
+          label: Net 15
+        - value: net_30
+          label: Net 30
+        - value: net_60
+          label: Net 60
+        - value: due_on_receipt
+          label: Due on Receipt
+      default: net_30
+    - key: auto_generate_invoice
+      type: boolean
+      label: Auto-generate Invoice from Order
+      default: false
+    - key: require_approval_amount
+      type: number
+      label: Require Approval for Orders Above
+      default: 1000
+    - key: default_tax_rate
+      type: number
+      label: Default Tax Rate (%)
+      default: 0
+    - key: enable_discounts
+      type: boolean
+      label: Enable Discounts
+      default: true
+    - key: enable_commissions
+      type: boolean
+      label: Enable Sales Commissions
+      default: false
+    - key: commission_rate
+      type: number
+      label: Default Commission Rate (%)
+      default: 5
+      depends_on:
+        enable_commissions: true
