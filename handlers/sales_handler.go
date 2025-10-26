@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/jmoiron/sqlx"
 	sdk "github.com/linearbits/erp-backend/pkg/module-sdk"
+	"go.uber.org/zap"
 )
 
 // Local domain types
@@ -117,12 +118,13 @@ type SalesQuoteItem struct {
 
 // SalesHandler handles all sales-related HTTP requests
 type SalesHandler struct {
-	db *sqlx.DB
+	db     *sqlx.DB
+	logger *zap.Logger
 }
 
 // NewSalesHandler creates a new sales handler
-func NewSalesHandler(db *sqlx.DB) *SalesHandler {
-	return &SalesHandler{db: db}
+func NewSalesHandler(db *sqlx.DB, logger *zap.Logger) *SalesHandler {
+	return &SalesHandler{db: db, logger: logger}
 }
 
 // Sales Order Handlers

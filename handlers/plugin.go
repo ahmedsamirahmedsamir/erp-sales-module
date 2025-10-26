@@ -26,7 +26,7 @@ func NewSalesPlugin() sdk.ModulePlugin {
 func (p *SalesPlugin) Initialize(db *sqlx.DB, logger *zap.Logger) error {
 	p.db = db
 	p.logger = logger
-	p.handler = NewSalesHandler(db)
+	p.handler = NewSalesHandler(db, logger)
 	p.logger.Info("Sales module initialized")
 	return nil
 }
